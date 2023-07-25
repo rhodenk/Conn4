@@ -27,15 +27,12 @@ def getFDiagonal(diag):
                 if r-c < 0:
                     break
                 tokens += grid[r-c][c]
-        #print(f"fDiag{diag} >> {tokens}")
     else:
         for c in range(diag-ROW_COUNT, diag-ROW_COUNT+1):    #start at 1 - skip first as this was already included above for c in range(1, COL_COUNT):
             for r in range(0,ROW_COUNT):
                 if r+c >= COL_COUNT-1:
                     break
-                #print(f"{r} {c} >> {ROW_COUNT-r-1},{r+c+1}")
                 tokens += grid[ROW_COUNT-r-1][r+c+1]
-        #print(f"fDiag{diag} >> {tokens}")
     return tokens
 
 def getBDiagonal(diag):
@@ -46,15 +43,12 @@ def getBDiagonal(diag):
                 if c+r > ROW_COUNT-1:
                     break
                 tokens += grid[c+r][c]
-                #print(f"{c+r},{c} = {grid[c+r][c]}")
     else:
         for c in range(diag-ROW_COUNT+1, diag-ROW_COUNT+2):    #start at +1 - skip first as this was already included above
             for r in range(0,ROW_COUNT):
                 if r+c >= COL_COUNT:
                     break
                 tokens += grid[r][r+c]
-                #print(f"{r} {c} >> {r},{r+c} = {grid[r][r+c]}")
-    #print(f"bDiag{diag} >> {tokens}")
     return tokens
 
 def addToken(col, player):
@@ -116,31 +110,32 @@ def clearScreen():
     else:
         _ = os.system('clear')
 
-clearScreen()
-print(f"Start - get {WIN_COUNT} in a row to win")
-printGrid()
 
-userCol = ""
-whoseGo = "R"
-allowedInputs = []
-for i in range(0, COL_COUNT):
-    allowedInputs.append(str(i))
-
-while userCol!="X":
-    userCol = input(f"Player {whoseGo}, enter column number from 0 to {COL_COUNT-1}: ")
+if __name__ == '__main__':      # don't include UI in unit tests
     clearScreen()
-    if userCol in allowedInputs:        #make dynamic
-        if addToken(int(userCol), whoseGo):
-            printGrid()
-            #print(getFDiagonal(int(userCol)))
-            w = checkWin()
-            if w!="":
-               print(f"win={w}")
-               userCol = "X"
-            whoseGo="Y" if whoseGo=="R" else "R"
+    print(f"Start - get {WIN_COUNT} in a row to win")
+    printGrid()
+
+    userCol = ""
+    whoseGo = "R"
+    allowedInputs = []
+    for i in range(0, COL_COUNT):
+        allowedInputs.append(str(i))
+
+    while userCol!="X":
+        userCol = input(f"Player {whoseGo}, enter column number from 0 to {COL_COUNT-1}: ")
+        clearScreen()
+        if userCol in allowedInputs:        #make dynamic
+            if addToken(int(userCol), whoseGo):
+                printGrid()
+                w = checkWin()
+                if w!="":
+                    print(f"win={w}")
+                userCol = "X"
+                whoseGo="Y" if whoseGo=="R" else "R"
+            else:
+                print("Column is full.  Choose a different column")
+                printGrid()
         else:
-            print("Column is full.  Choose a different column")
+            print("bad input")
             printGrid()
-    else:
-        print("bad input")
-        printGrid()
