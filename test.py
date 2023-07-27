@@ -47,7 +47,14 @@ class TestMain(unittest.TestCase):
         t_win = main.checkWin()
         self.assertEqual(t_win, "R", "Should get 'R' win because 4 token in col 0")
 
-    def test_Fdiagonal_win(self):
+    def test_row_win(self):
+        self._resetGrid()
+        for i in range(0,4):
+            main.addToken(i, "Y")
+        t_win = main.checkWin()
+        self.assertEqual(t_win, "Y", "Should get 'Y' win because 4 token in row 0")
+
+    def test_Fdiagonal_win1(self):
         self._resetGrid()
         main.addToken(0, "R")
         main.addToken(1, "Y")
@@ -62,6 +69,39 @@ class TestMain(unittest.TestCase):
 
         t_win = main.checkWin()
         self.assertEqual(t_win, "R", "Should get 'R' win because of Fdiagonal tokens")
+
+    def test_Fdiagonal_win2(self):
+        self._resetGrid()
+        main.addToken(5, "R")
+        main.addToken(6, "Y")
+        main.addToken(7, "Y")
+        main.addToken(8, "Y")
+        main.addToken(6, "R")
+        main.addToken(7, "Y")
+        main.addToken(8, "Y")
+        main.addToken(7, "R")
+        main.addToken(8, "Y")
+        main.addToken(8, "R")
+
+        t_win = main.checkWin()
+        self.assertEqual(t_win, "R", "Should get 'R' win because of Fdiagonal tokens")
+
+    def test_Bdiagonal_win1(self):
+        self._resetGrid()
+        main.addToken(3, "R")
+        main.addToken(2, "Y")
+        main.addToken(1, "Y")
+        main.addToken(0, "Y")
+        main.addToken(2, "R")
+        main.addToken(1, "Y")
+        main.addToken(0, "Y")
+        main.addToken(1, "R")
+        main.addToken(0, "Y")
+        main.addToken(0, "R")
+
+        t_win = main.checkWin()
+        self.assertEqual(t_win, "R", "Should get 'R' win because of Fdiagonal tokens")
+
 
 if __name__ == '__main__':
     unittest.main()
